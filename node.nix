@@ -7,16 +7,19 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
     flake-utils,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {inherit system;};
+      pkgs = import nixpkgs {
+        inherit system;
+      };
     in {
       devShells.default = pkgs.mkShell {
         buildInputs = [
-          pkgs.nodejs_23
-          pkgs.corepack_23
+          pkgs.nodejs_24
+          pkgs.corepack_24
         ];
         shellHook = ''
           mkdir -p "$PWD/.node/bin"
@@ -32,7 +35,7 @@
           export PATH="$PWD/.node/bin:$PATH"
           corepack enable --install-directory "$PWD/.node/bin"
           corepack prepare pnpm@latest --activate
-          
+
           # install vercel cli
           # pnpm install -g vercel
         '';
